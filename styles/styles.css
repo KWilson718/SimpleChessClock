@@ -1,0 +1,14 @@
+.heading{
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+#inputField{
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    padding: 7.5%;
+}

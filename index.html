@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+    <div class="heading">
+        <h1>Custom Game Clock</h1>
+        <p>Enter the Game's Data Below and Click Create Game to Start</p>
+    </div>
+    <div class="input">
+        <form id="inputField">
+
+            <label for="players">Number of Players</label>
+            <input type="number" id="players" name="players" min="1" max="10" value="2">
+
+            <br><br>
+
+            <label for="time">Time Per Player</label>
+            <input type="number" id="time" name="time" min="0" max="9999999999" value="1">
+
+            <br>
+
+            <input type="radio" id="seconds" name="timeType" value="SECONDS">
+            <label for="seconds">Seconds</label>
+            <input type="radio" id="minutes" name="timeType" value="MINUTES">
+            <label for="minutes">Minutes</label>
+            <input type="radio" id="hours" name="timeType" value="HOURS" checked>
+            <label for="hours">Hours</label>
+
+            <br><br>
+
+            <input type="submit">
+            <input type="reset">
+        </form>
+    </div>
+</body>
+</html>
