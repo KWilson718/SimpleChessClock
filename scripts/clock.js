@@ -6,11 +6,9 @@ const players = params.get('players');
 const startingHours = params.get('hours');
 const startingMinutes = params.get('minutes');
 const startingSeconds = params.get('seconds');
-console.log("Hours:", startingHours, " Minutes:", startingMinutes, " Seconds:", startingSeconds);
 
 // Gets the Total Time in Seconds that was entered by the user
 const startTime = (startingHours * 3600) + (startingMinutes * 60) + parseInt(startingSeconds);
-console.log("Start Time:", startTime);
 
 // Get the Location of Useful Divs
 const clockPage = document.getElementById('clockBody');
