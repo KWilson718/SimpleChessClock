@@ -7,6 +7,9 @@ const hours = params.get('hours');
 const minutes = params.get('minutes');
 const seconds = params.get('seconds');
 
+// Gets the Total Time in Seconds that was entered by the user
+const startTime = (hours * 3600) + (minutes * 60) + seconds;
+
 
 // Get the Location of Useful Divs
 const clockPage = document.getElementById('clockBody');
@@ -15,8 +18,8 @@ const pauseBtn = document.getElementById('pauseContainer');
 let activeNum = 0; // Number to see which player is active (0 if paused)
 
 
-// Gets whatever time format sent through into seconds for computer's benefit
-let time = (hours * 3600) + (minutes * 60) + seconds;
+// Creates an Array of Times for each user to have one
+let timesArray = new Array(players).fill(startTime);
 
 
 // Outputs fresh HTML to the webpage to display correct data
@@ -30,7 +33,7 @@ function updateAll(){
         if (i == activeNum){
             objClass = "playerClockActive";
         }
-        let newData = `<div class="${objClass}"><h2>Player ${i}</h2><p>${time}</p><p>Press ${i} to Switch To</p></div>`;
+        let newData = `<div class="${objClass}"><h2>Player ${i}</h2><p>${startTime}</p><p>Press ${i} to Switch To</p></div>`;
         writeData += newData;
     }
 
