@@ -8,6 +8,8 @@ const timeType = params.get('timeType');
 
 let timeFixed = 0; // a fixed time that is going to be guaranteed to be in seconds (for setting clocks)
 
+let activeNum = 0; // Number to see which player is active (0 if paused)
+
 // Log the values to the console to ensure it's working
 console.log('Number of Players:', players);
 console.log('Time Per Player:', time);
@@ -25,15 +27,12 @@ else{
 
 console.log('Time Fixed:', timeFixed);
 
-document.addEventListener("DOMContentLoaded", function() {
-    const clockPage = document.getElementById('clockBody');
-    const pauseBtn = document.getElementById('pauseContainer');
 
-    // Logic for Player Clock Divs
 
+// Logic for Player Clock Divs
+function updateClocks(item){
+    
     let writeData = "";
-
-    let activeNum = 2;
 
     for (let i = 1; i <= players; i++){
         let objClass = "playerClock";
@@ -44,20 +43,35 @@ document.addEventListener("DOMContentLoaded", function() {
         writeData += newData;
     }
 
-    clockPage.innerHTML = writeData;
+    item.innerHTML = writeData;
+}
 
-    // Logic for Pause Button Div
+// Logic for Pause Button Div
+function updatePauseBTN(item){
 
     let pauseClass = "pauseBtn";
     if(activeNum === 0){
         pauseClass = "pauseBtnActive";
     }
-    pauseBtn.innerHTML = `<div class="${pauseClass}"><h2>Pause Game</h2><p>Press P to Pause Clocks</p></div>`;
+    item.innerHTML = `<div class="${pauseClass}"><h2>Pause Game</h2><p>Press P to Pause Clocks</p></div>`;
+
+}
+
+function updateAll (item1, item2){
+    updateClocks(item1);
+    updatePauseBTN(item2);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const clockPage = document.getElementById('clockBody');
+    const pauseBtn = document.getElementById('pauseContainer');
+
+    updateAll (clockPage, pauseBtn);
+
 });
 
-
 /**
- * Layout for Timer Functionality
+ * Layout for Timer Functionality - check
  * 
  * Array with times (might be objects with more data, or just times)
  * 
