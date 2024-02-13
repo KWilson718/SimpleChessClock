@@ -76,8 +76,11 @@ function logPress(event){
         if ((activeNum < players) && (activeNum > 0)){
             activeNum++;
         }
-        else{
+        else if(activeNum != 0){
             activeNum = 1;
+        }
+        else{
+            activeNum = 0;
         }
         updateAll();
     }
