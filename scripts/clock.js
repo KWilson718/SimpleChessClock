@@ -6,8 +6,6 @@ const players = params.get('players');
 const hours = params.get('hours');
 const minutes = params.get('minutes');
 const seconds = params.get('seconds');
-// const time = params.get('time');
-// const timeType = params.get('timeType');
 
 
 // Get the Location of Useful Divs
