@@ -3,13 +3,14 @@ const params = new URLSearchParams(window.location.search);
 
 // Get the value of each parameter
 const players = params.get('players');
-const hours = params.get('hours');
-const minutes = params.get('minutes');
-const seconds = params.get('seconds');
+const startingHours = params.get('hours');
+const startingMinutes = params.get('minutes');
+const startingSeconds = params.get('seconds');
+console.log("Hours:", startingHours, " Minutes:", startingMinutes, " Seconds:", startingSeconds);
 
 // Gets the Total Time in Seconds that was entered by the user
-const startTime = (hours * 3600) + (minutes * 60) + seconds;
-
+const startTime = (startingHours * 3600) + (startingMinutes * 60) + parseInt(startingSeconds);
+console.log("Start Time:", startTime);
 
 // Get the Location of Useful Divs
 const clockPage = document.getElementById('clockBody');
@@ -19,7 +20,8 @@ let activeNum = 0; // Number to see which player is active (0 if paused)
 
 
 // Creates an Array of Times for each user to have one
-let timesArray = new Array(players).fill(startTime);
+let timesArray = Array(parseInt(players)).fill(startTime);
+console.log("Array", timesArray);
 
 
 // Outputs fresh HTML to the webpage to display correct data
@@ -29,11 +31,16 @@ function updateAll(){
     let writeData = "";
 
     for (let i = 1; i <= players; i++){
+        let currTime = timesArray[i-1];
+        let hours = String(Math.floor(currTime / 3600)).padStart(2, '0');
+        let minutes = String(Math.floor((currTime % 3600) / 60)).padStart(2, '0');;
+        let seconds = String(currTime % 60).padStart(2, '0');;
+
         let objClass = "playerClock";
         if (i == activeNum){
             objClass = "playerClockActive";
         }
-        let newData = `<div class="${objClass}"><h2>Player ${i}</h2><p>${startTime}</p><p>Press ${i} to Switch To</p></div>`;
+        let newData = `<div class="${objClass}"><h2>Player ${i}</h2><p>Time Left: ${hours}:${minutes}:${seconds}</p><p>Press ${i} to Switch To</p></div>`;
         writeData += newData;
     }
 
