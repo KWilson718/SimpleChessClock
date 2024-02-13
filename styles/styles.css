@@ -1,3 +1,25 @@
+#inputField{
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    padding: 7.5%;
+}
+
+#clockBody{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: row;
+}
+
+#pauseContainer{
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5%;
+}
+
 .heading{
     align-content: center;
     justify-content: center;
@@ -6,9 +28,46 @@
     padding-bottom: 5%;
 }
 
-#inputField{
+.playerClock{
+    flex: 1;
     align-content: center;
     justify-content: center;
     text-align: center;
-    padding: 7.5%;
+    padding: 3%;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 1%;
+}
+
+.playerClockActive{
+    flex: 1;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3%;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 1%;
+    background-color: lightgrey;
+}
+
+.pauseBtn{
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1%;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 1%;
+}
+
+.pauseBtnActive{
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1%;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 1%;
+    background-color: lightgrey;
 }
