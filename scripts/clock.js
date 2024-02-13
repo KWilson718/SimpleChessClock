@@ -6,6 +6,10 @@ const players = params.get('players');
 const time = params.get('time');
 const timeType = params.get('timeType');
 
+// Get the Location of Useful Divs
+const clockPage = document.getElementById('clockBody');
+const pauseBtn = document.getElementById('pauseContainer');
+
 let timeFixed = 0; // a fixed time that is going to be guaranteed to be in seconds (for setting clocks)
 
 let activeNum = 0; // Number to see which player is active (0 if paused)
@@ -27,46 +31,54 @@ else{
 
 console.log('Time Fixed:', timeFixed);
 
-
-
-// Logic for Player Clock Divs
-function updateClocks(item){
-    
+function updateAll(){
     let writeData = "";
 
     for (let i = 1; i <= players; i++){
         let objClass = "playerClock";
-        if (i === activeNum){
+        if (i == activeNum){
             objClass = "playerClockActive";
         }
         let newData = `<div class="${objClass}"><h2>Player ${i}</h2><p>${timeFixed}</p><p>Press ${i} to Switch To</p></div>`;
         writeData += newData;
     }
 
-    item.innerHTML = writeData;
-}
-
-// Logic for Pause Button Div
-function updatePauseBTN(item){
+    clockPage.innerHTML = writeData;
 
     let pauseClass = "pauseBtn";
-    if(activeNum === 0){
+    if(activeNum == 0){
         pauseClass = "pauseBtnActive";
     }
-    item.innerHTML = `<div class="${pauseClass}"><h2>Pause Game</h2><p>Press P to Pause Clocks</p></div>`;
-
+    pauseBtn.innerHTML = `<div class="${pauseClass}"><h2>Pause Game</h2><p>Press P to Pause Clocks</p></div>`;
 }
 
-function updateAll (item1, item2){
-    updateClocks(item1);
-    updatePauseBTN(item2);
+function logPress(event){
+    if (event.code === 'Space' || event.key === ' ') {
+        // Execute your desired function or code here
+        if(activeNum != 0){
+            activeNum = 0;
+            updateAll();
+        }
+    }
+    else if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105)) {
+        // Retrieve the value entered by the user
+        const inputValue = event.key;
+        if ((inputValue <= players) && (inputValue != activeNum)){
+            console.log("Event Key:", event.key);
+            activeNum = inputValue;
+            updateAll();
+        }
+        
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    const clockPage = document.getElementById('clockBody');
-    const pauseBtn = document.getElementById('pauseContainer');
+    // Startup Tasks for Initial Display
+    updateAll()
 
-    updateAll (clockPage, pauseBtn);
+    document.addEventListener('keydown', function(event) {
+        logPress(event);
+    });
 
 });
 
@@ -75,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
  * 
  * Array with times (might be objects with more data, or just times)
  * 
- * Way to choose active timer
+ * Way to choose active timer - check
  * 
  * Starts the interval engine, goes until something stops it
  * 
