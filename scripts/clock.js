@@ -6,19 +6,17 @@ const players = params.get('players');
 const time = params.get('time');
 const timeType = params.get('timeType');
 
+
 // Get the Location of Useful Divs
 const clockPage = document.getElementById('clockBody');
 const pauseBtn = document.getElementById('pauseContainer');
 
-let timeFixed = 0; // a fixed time that is going to be guaranteed to be in seconds (for setting clocks)
-
 let activeNum = 0; // Number to see which player is active (0 if paused)
 
-// Log the values to the console to ensure it's working
-console.log('Number of Players:', players);
-console.log('Time Per Player:', time);
-console.log('Time Type:', timeType);
 
+// Gets whatever time format sent through into seconds for computer's benefit
+
+let timeFixed = 0;
 if (timeType === "SECONDS"){
     timeFixed = time;
 }
@@ -29,7 +27,8 @@ else{
     timeFixed = time * 3600;
 }
 
-console.log('Time Fixed:', timeFixed);
+
+// Outputs fresh HTML to the webpage to display correct data
 
 function updateAll(){
 
@@ -55,6 +54,8 @@ function updateAll(){
     pauseBtn.innerHTML = `<div class="${pauseClass}"><h2>Pause Game</h2><p>Press P or 0 to Pause Clocks</p></div>`;
 }
 
+
+// Handles the pressing of any keys as to switch between active players
 function logPress(event){
     if (event.keyCode == 80) {
         // Execute your desired function or code here
@@ -84,6 +85,8 @@ function logPress(event){
     }
 }
 
+
+// handles the event listeners to make sure that the page has loaded first, essentially can be used like a Main Function
 document.addEventListener("DOMContentLoaded", function() {
     // Startup Tasks for Initial Display
     updateAll()
