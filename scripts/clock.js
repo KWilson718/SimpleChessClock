@@ -15,7 +15,6 @@ let activeNum = 0; // Number to see which player is active (0 if paused)
 
 
 // Gets whatever time format sent through into seconds for computer's benefit
-
 let timeFixed = 0;
 if (timeType === "SECONDS"){
     timeFixed = time;
@@ -29,7 +28,6 @@ else{
 
 
 // Outputs fresh HTML to the webpage to display correct data
-
 function updateAll(){
 
     // Clock Update Logic
