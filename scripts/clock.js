@@ -3,8 +3,11 @@ const params = new URLSearchParams(window.location.search);
 
 // Get the value of each parameter
 const players = params.get('players');
-const time = params.get('time');
-const timeType = params.get('timeType');
+const hours = params.get('hours');
+const minutes = params.get('minutes');
+const seconds = params.get('seconds');
+// const time = params.get('time');
+// const timeType = params.get('timeType');
 
 
 // Get the Location of Useful Divs
@@ -15,16 +18,7 @@ let activeNum = 0; // Number to see which player is active (0 if paused)
 
 
 // Gets whatever time format sent through into seconds for computer's benefit
-let timeFixed = 0;
-if (timeType === "SECONDS"){
-    timeFixed = time;
-}
-else if(timeType === "MINUTES"){
-    timeFixed = time * 60;
-}
-else{
-    timeFixed = time * 3600;
-}
+let time = (hours * 3600) + (minutes * 60) + seconds;
 
 
 // Outputs fresh HTML to the webpage to display correct data
@@ -38,7 +32,7 @@ function updateAll(){
         if (i == activeNum){
             objClass = "playerClockActive";
         }
-        let newData = `<div class="${objClass}"><h2>Player ${i}</h2><p>${timeFixed}</p><p>Press ${i} to Switch To</p></div>`;
+        let newData = `<div class="${objClass}"><h2>Player ${i}</h2><p>${time}</p><p>Press ${i} to Switch To</p></div>`;
         writeData += newData;
     }
 
