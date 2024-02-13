@@ -32,6 +32,8 @@ else{
 console.log('Time Fixed:', timeFixed);
 
 function updateAll(){
+
+    // Clock Update Logic
     let writeData = "";
 
     for (let i = 1; i <= players; i++){
@@ -45,15 +47,16 @@ function updateAll(){
 
     clockPage.innerHTML = writeData;
 
+    // Pause Button Update Logic
     let pauseClass = "pauseBtn";
     if(activeNum == 0){
         pauseClass = "pauseBtnActive";
     }
-    pauseBtn.innerHTML = `<div class="${pauseClass}"><h2>Pause Game</h2><p>Press P to Pause Clocks</p></div>`;
+    pauseBtn.innerHTML = `<div class="${pauseClass}"><h2>Pause Game</h2><p>Press P or 0 to Pause Clocks</p></div>`;
 }
 
 function logPress(event){
-    if (event.code === 'Space' || event.key === ' ') {
+    if (event.keyCode == 80) {
         // Execute your desired function or code here
         if(activeNum != 0){
             activeNum = 0;
@@ -69,6 +72,15 @@ function logPress(event){
             updateAll();
         }
         
+    }
+    if (event.code === 'Space' || event.key === ' ') {
+        if ((activeNum < players) && (activeNum > 0)){
+            activeNum++;
+        }
+        else{
+            activeNum = 1;
+        }
+        updateAll();
     }
 }
 
