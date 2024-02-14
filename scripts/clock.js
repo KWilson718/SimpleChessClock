@@ -32,7 +32,12 @@ function startTimer(){
             updateAll(-1);
         }
         else if(timesArray[currPlayer - 1] == 0){
-            // Data to be sent out if a player's timer is up
+            // Creates a Parameter with the Player Whose Time is Up and then switches to the time up page
+            const params = URLSearchParams({
+                player: activePlayer
+            });
+            window.location.href = 'timeUp.html?' + params.toString();
+
             clearInterval(activeTimerNum);
         }
         else{
