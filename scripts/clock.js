@@ -16,14 +16,35 @@ const pauseBtn = document.getElementById('pauseContainer');
 
 let activeNum = 0; // Number to see which player is active (0 if paused)
 
+let activeTimerNum = 0;
+
 
 // Creates an Array of Times for each user to have one
 let timesArray = Array(parseInt(players)).fill(startTime);
 console.log("Array", timesArray);
 
 
+function startTimer(){
+    currPlayer = activeNum;
+    activeTimerNum = setInterval(() => {
+        if((timesArray[currPlayer - 1] > 0) && (currPlayer == activeNum)){
+            timesArray[currPlayer - 1]--;
+            updateAll(-1);
+        }
+        else if(timesArray[currPlayer - 1] == 0){
+            // Data to be sent out if a player's timer is up
+            clearInterval(activeTimerNum);
+        }
+        else{
+            clearInterval(activeTimerNum);
+        }
+    }, 1000);
+
+}
+
+
 // Outputs fresh HTML to the webpage to display correct data
-function updateAll(){
+function updateAll(updateType){
 
     // Clock Update Logic
     let writeData = "";
@@ -47,9 +68,15 @@ function updateAll(){
     // Pause Button Update Logic
     let pauseClass = "pauseBtn";
     if(activeNum == 0){
+        clearInterval(activeTimerNum);
         pauseClass = "pauseBtnActive";
     }
     pauseBtn.innerHTML = `<div class="${pauseClass}"><h2>Pause Game</h2><p>Press P or 0 to Pause Clocks</p></div>`;
+
+    if((activeNum != 0) && (updateType == 0)){
+        clearInterval(activeTimerNum);
+        startTimer();
+    }
 }
 
 
@@ -59,7 +86,7 @@ function logPress(event){
         // Execute your desired function or code here
         if(activeNum != 0){
             activeNum = 0;
-            updateAll();
+            updateAll(-1);
         }
     }
     else if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105)) {
@@ -68,7 +95,7 @@ function logPress(event){
         if ((inputValue <= players) && (inputValue != activeNum)){
             console.log("Event Key:", event.key);
             activeNum = inputValue;
-            updateAll();
+            updateAll(0);
         }
         
     }
@@ -82,7 +109,7 @@ function logPress(event){
         else{
             activeNum = 0;
         }
-        updateAll();
+        updateAll(0);
     }
 }
 
@@ -90,7 +117,7 @@ function logPress(event){
 // handles the event listeners to make sure that the page has loaded first, essentially can be used like a Main Function
 document.addEventListener("DOMContentLoaded", function() {
     // Startup Tasks for Initial Display
-    updateAll()
+    updateAll(0)
 
     document.addEventListener('keydown', function(event) {
         logPress(event);
@@ -111,5 +138,5 @@ document.addEventListener("DOMContentLoaded", function() {
  * 
  * Accounts for a pause to also occur
  * 
- * Displays the times out to the div beyond
+ * Displays the times out to the div beyond - check
  */
