@@ -95,9 +95,21 @@ function updateAll(updateType){ // -1 is do nothing, 0 is switch active player, 
         // Output a form to modify or add time to each time slot
         writeData += `<form id="timeForm">`;
         for (let i = 1; i <= players; i++) {
+            let currTime = timesArray[i-1];
+            let hours = String(Math.floor(currTime / 3600)).padStart(2, '0');
+            let minutes = String(Math.floor((currTime % 3600) / 60)).padStart(2, '0');
+            let seconds = String(currTime % 60).padStart(2, '0');
+
             writeData += `
-                <label for="player${i}">Player ${i}:</label>
-                <input type="number" id="player${i}" name="player${i}" value="${timesArray[i - 1]}"><br>
+                <label>Player ${i}:</label>
+                <br>
+                <label for="player${i}hours">Hours</label>
+                <input type="number" id="player${i}hours" name="player${i}hours" value="${hours}">
+                <label for="player${i}minutes">Minutes</label>
+                <input type="number" id="player${i}minutes" name="player${i}minutes" value="${minutes}">
+                <label for="player${i}seconds">Seconds</label>
+                <input type="number" id="player${i}seconds" name="player${i}seconds" value="${seconds}">
+                <br><br>
             `;
         }
         writeData += `<input type="submit" value="Submit"></form>`;
@@ -112,7 +124,7 @@ function updateAll(updateType){ // -1 is do nothing, 0 is switch active player, 
             event.preventDefault(); // Prevent default form submission
             // Update timesArray with values from the form
             for (let i = 1; i <= players; i++) {
-                timesArray[i - 1] = parseInt(document.getElementById(`player${i}`).value);
+                timesArray[i - 1] = parseInt((document.getElementById(`player${i}hours`).value * 3600) + (document.getElementById(`player${i}minutes`).value * 60) + (document.getElementById(`player${i}seconds`).value * 1));
             }
             // Update display with updated timesArray
             updateAll(-1);
