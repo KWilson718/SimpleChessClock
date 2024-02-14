@@ -35,7 +35,8 @@ function startTimer(){
             else{
                 console.log("Player ", currPlayer, " ran out of time...");
                 const params = new URLSearchParams({
-                    player: currPlayer
+                    player: currPlayer,
+                    array: timesArray.join(',')
                 });
                 window.location.href = 'timeUp.html?' + params.toString();
                 clearInterval(activeTimerNum);
@@ -45,7 +46,8 @@ function startTimer(){
         else if(timesArray[currPlayer - 1] <= 0){
             // Creates a Parameter with the Player Whose Time is Up and then switches to the time up page
             const params = new URLSearchParams({
-                player: currPlayer
+                player: currPlayer,
+                array: timesArray.join(',')
             });
             window.location.href = 'timeUp.html?' + params.toString();
 
@@ -68,8 +70,8 @@ function updateAll(updateType){
     for (let i = 1; i <= players; i++){
         let currTime = timesArray[i-1];
         let hours = String(Math.floor(currTime / 3600)).padStart(2, '0');
-        let minutes = String(Math.floor((currTime % 3600) / 60)).padStart(2, '0');;
-        let seconds = String(currTime % 60).padStart(2, '0');;
+        let minutes = String(Math.floor((currTime % 3600) / 60)).padStart(2, '0');
+        let seconds = String(currTime % 60).padStart(2, '0');
 
         let objClass = "playerClock";
         if (i == activeNum){

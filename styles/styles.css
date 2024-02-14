@@ -20,6 +20,12 @@
     padding: 5%;
 }
 
+#endingBody{
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+}
+
 .heading{
     align-content: center;
     justify-content: center;
