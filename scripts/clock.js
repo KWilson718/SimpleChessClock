@@ -15,6 +15,7 @@ const clockPage = document.getElementById('clockBody');
 const pauseBtn = document.getElementById('pauseContainer');
 
 let activeNum = 0; // Number to see which player is active (0 if paused)
+let modifyMode = false;
 
 let activeTimerNum = 0;
 
@@ -62,35 +63,86 @@ function startTimer(){
 
 
 // Outputs fresh HTML to the webpage to display correct data
-function updateAll(updateType){
+function updateAll(updateType){ // -1 is do nothing, 0 is switch active player, 1 is enter time modification mode
+
+    if (updateType == 1){
+        modifyMode = true;
+    }
+    else{
+        modifyMode = false;
+    }
 
     // Clock Update Logic
     let writeData = "";
 
-    for (let i = 1; i <= players; i++){
-        let currTime = timesArray[i-1];
-        let hours = String(Math.floor(currTime / 3600)).padStart(2, '0');
-        let minutes = String(Math.floor((currTime % 3600) / 60)).padStart(2, '0');
-        let seconds = String(currTime % 60).padStart(2, '0');
+    if ((updateType == -1) || (updateType == 0)){
+        for (let i = 1; i <= players; i++){
+            let currTime = timesArray[i-1];
+            let hours = String(Math.floor(currTime / 3600)).padStart(2, '0');
+            let minutes = String(Math.floor((currTime % 3600) / 60)).padStart(2, '0');
+            let seconds = String(currTime % 60).padStart(2, '0');
+    
+            let objClass = "playerClock";
+            if (i == activeNum){
+                objClass = "playerClockActive";
+            }
+            let newData = `<div class="${objClass}"><h2>Player ${i}</h2><p>Time Left: ${hours}:${minutes}:${seconds}</p><p>Press ${i} to Switch To</p></div>`;
+            writeData += newData;
+        }    
+    }
+    else if (updateType == 1){
+        console.log("Modification Mode Entered");
+        // Output a form to modify or add time to each time slot
+        writeData += `<form id="timeForm">`;
+        for (let i = 1; i <= players; i++) {
+            let currTime = timesArray[i-1];
+            let hours = String(Math.floor(currTime / 3600)).padStart(2, '0');
+            let minutes = String(Math.floor((currTime % 3600) / 60)).padStart(2, '0');
+            let seconds = String(currTime % 60).padStart(2, '0');
 
-        let objClass = "playerClock";
-        if (i == activeNum){
-            objClass = "playerClockActive";
+            writeData += `
+                <label>Player ${i}:</label>
+                <br>
+                <label for="player${i}hours">Hours</label>
+                <input type="number" id="player${i}hours" name="player${i}hours" value="${hours}">
+                <label for="player${i}minutes">Minutes</label>
+                <input type="number" id="player${i}minutes" name="player${i}minutes" value="${minutes}">
+                <label for="player${i}seconds">Seconds</label>
+                <input type="number" id="player${i}seconds" name="player${i}seconds" value="${seconds}">
+                <br><br>
+            `;
         }
-        let newData = `<div class="${objClass}"><h2>Player ${i}</h2><p>Time Left: ${hours}:${minutes}:${seconds}</p><p>Press ${i} to Switch To</p></div>`;
-        writeData += newData;
+        writeData += `<input type="submit" value="Submit"></form>`;
     }
 
+    // Writes Logic Needed to Main Body Section
     clockPage.innerHTML = writeData;
+
+    // Add event listener to the form
+    if (updateType == 1){
+        document.getElementById('timeForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            // Update timesArray with values from the form
+            for (let i = 1; i <= players; i++) {
+                timesArray[i - 1] = parseInt((document.getElementById(`player${i}hours`).value * 3600) + (document.getElementById(`player${i}minutes`).value * 60) + (document.getElementById(`player${i}seconds`).value * 1));
+            }
+            // Update display with updated timesArray
+            updateAll(-1);
+        });
+    }
 
     // Pause Button Update Logic
     let pauseClass = "pauseBtn";
+
     if(activeNum == 0){
         clearInterval(activeTimerNum);
         pauseClass = "pauseBtnActive";
     }
+
     pauseBtn.innerHTML = `<div class="${pauseClass}"><h2>Pause Game</h2><p>Press P or 0 to Pause Clocks</p></div>`;
 
+
+    // Handles Timers
     if((activeNum != 0) && (updateType == 0)){
         clearInterval(activeTimerNum);
         startTimer();
@@ -100,34 +152,42 @@ function updateAll(updateType){
 
 // Handles the pressing of any keys as to switch between active players
 function logPress(event){
-    if (event.keyCode == 80) {
-        // Execute your desired function or code here
-        if(activeNum != 0){
-            activeNum = 0;
-            updateAll(-1);
+    if (!modifyMode){
+        if (event.keyCode == 80) {
+            // Execute your desired function or code here
+            if(activeNum != 0){
+                activeNum = 0;
+                updateAll(-1);
+            }
         }
-    }
-    else if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105)) {
-        // Retrieve the value entered by the user
-        const inputValue = event.key;
-        if ((inputValue <= players) && (inputValue != activeNum)){
-            console.log("Event Key:", event.key);
-            activeNum = inputValue;
+        else if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105)) {
+            // Retrieve the value entered by the user
+            const inputValue = event.key;
+            if ((inputValue <= players) && (inputValue != activeNum)){
+                console.log("Event Key:", event.key);
+                activeNum = inputValue;
+                updateAll(0);
+            }
+            
+        }
+        else if (event.code === 'Space' || event.key === ' ') {
+            if ((activeNum < players) && (activeNum > 0)){
+                activeNum++;
+            }
+            else if(activeNum != 0){
+                activeNum = 1;
+            }
+            else{
+                activeNum = 0;
+            }
             updateAll(0);
         }
-        
-    }
-    if (event.code === 'Space' || event.key === ' ') {
-        if ((activeNum < players) && (activeNum > 0)){
-            activeNum++;
+        else if (event.keyCode == 77){
+            if (activeNum != 0){
+                activeNum = 0;
+                updateAll(1);
+            }
         }
-        else if(activeNum != 0){
-            activeNum = 1;
-        }
-        else{
-            activeNum = 0;
-        }
-        updateAll(0);
     }
 }
 
@@ -142,19 +202,3 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 });
-
-/**
- * Layout for Timer Functionality - check
- * 
- * Array with times (might be objects with more data, or just times)
- * 
- * Way to choose active timer - check
- * 
- * Starts the interval engine, goes until something stops it
- * 
- * Saves decreased time into array, then switching to different one to then start decreasing
- * 
- * Accounts for a pause to also occur
- * 
- * Displays the times out to the div beyond - check
- */
