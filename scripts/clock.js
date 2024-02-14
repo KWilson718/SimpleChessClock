@@ -29,12 +29,23 @@ function startTimer(){
     activeTimerNum = setInterval(() => {
         if((timesArray[currPlayer - 1] > 0) && (currPlayer == activeNum)){
             timesArray[currPlayer - 1]--;
-            updateAll(-1);
+            if (timesArray[currPlayer - 1] > 0){
+                updateAll(-1);
+            }
+            else{
+                console.log("Player ", currPlayer, " ran out of time...");
+                const params = new URLSearchParams({
+                    player: currPlayer
+                });
+                window.location.href = 'timeUp.html?' + params.toString();
+                clearInterval(activeTimerNum);
+            }
+            
         }
-        else if(timesArray[currPlayer - 1] == 0){
+        else if(timesArray[currPlayer - 1] <= 0){
             // Creates a Parameter with the Player Whose Time is Up and then switches to the time up page
-            const params = URLSearchParams({
-                player: activePlayer
+            const params = new URLSearchParams({
+                player: currPlayer
             });
             window.location.href = 'timeUp.html?' + params.toString();
 
