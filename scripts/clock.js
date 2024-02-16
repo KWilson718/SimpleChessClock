@@ -187,6 +187,9 @@ function logPress(event){
                 activeNum = 0;
                 updateAll(1);
             }
+            else{
+                updateAll(1);
+            }
         }
     }
 }
