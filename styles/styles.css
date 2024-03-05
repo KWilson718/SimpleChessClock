@@ -1,3 +1,15 @@
+:root {
+    --palletColor1: #ACADBC;
+    --palletColor2: #9B9ECE;
+    --palletColor3: #6665DD;
+    --palletColor4: #473BF0;
+    --palletColor5: #000500;
+  }
+
+html{
+    height: 100%;
+}
+
 #inputField{
     align-content: center;
     justify-content: center;
@@ -26,12 +38,27 @@
     text-align: center;
 }
 
+.body1{
+    height: 100%;
+    margin: 0px;
+}
+
 .heading{
+    height: 10%;
     align-content: center;
     justify-content: center;
     text-align: center;
-    padding-top: 5%;
-    padding-bottom: 5%;
+    padding-top: 1%;
+    padding-bottom: 7%;
+    background-color: var(--palletColor4);
+}
+
+.input1{
+    height: 90%;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--palletColor2);
 }
 
 .playerClock{
@@ -76,4 +103,13 @@
     border-radius: 5px;
     margin: 1%;
     background-color: lightgrey;
+}
+
+.headingTitleText{
+    color: var(--palletColor1);
+    font-size: 3.5vw;
+}
+.headingSubTitleText{
+    color: var(--palletColor1);
+    font-size: 1vw;
 }
